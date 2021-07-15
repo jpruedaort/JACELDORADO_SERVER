@@ -28,6 +28,9 @@ app.use('/post',post)
 const prof=require('./routes/profileRequests')
 app.use('/profile',prof)
 
+const admin=require('./routes/admin')
+app.use('/admin',admin)
+
 //Start Server
 app.listen(app.get('port'),()=>{
     console.log('server on port', app.get('port') );
