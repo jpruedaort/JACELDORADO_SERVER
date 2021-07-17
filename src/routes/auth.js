@@ -17,7 +17,7 @@ router.post("/useravalidate", (req, res) => {
 					const validPass = await bcrypt.compare(code.passw, rows[0].passw);
 					//create and asign token
 					const accessToken = jwt.sign(
-						{ email: rows[0].email , name:rows[0].nombres},
+						{ email: rows[0].email , name:rows[0].nombres , rol:rows[0].rol},
 						process.env.TOKEN_SECRET
 					)
 					console.log("token: ", accessToken)
