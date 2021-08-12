@@ -13,7 +13,7 @@ router.post('/user_info',verify,(req,res)=>{
 
 router.post('/new_event',verify,(req,res)=>{
 
-    console.log("cuerpo: ", req.body)
+    console.log("cuerpo: ", req.body.form.cominvi)
     
     const query = `INSERT INTO EVENTOS 
                     (event_owner_email,event_date,event_contenido)
