@@ -3,6 +3,7 @@ const router = express.Router();
 const mysqlConnection = require("../database");
 const verify = require('../private');
 const nodemailer = require('nodemailer');
+require("dotenv").config();
 
 
 //Informacion del usuario
@@ -89,13 +90,13 @@ router.post('/send_mail',verify,(req,res)=>{
     const transporter = nodemailer.createTransport(  {
         service:"hotmail",
         auth: {
-            user:"pdijacdorado@hotmail.com",
-            pass:"Jprueda123"
+            user:process.env.EM_USER,
+            pass:process.env.EM_PASS
         },
     });
 
     const options = {
-        from:"pdijacdorado@hotmail.com",
+        from:process.env.EM_USER,
         to:"jpruedaort@hotmail.com",
         subject:"Send email with node",
         text:"hola"
