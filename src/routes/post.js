@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mysqlConnection = require("../database");
 const verify = require('../private');
+const nodemailer = require('nodemailer');
 
+
+//Informacion del usuario
 router.post('/user_info',verify,(req,res)=>{
     console.log(req.user.email)
     res.json({payload:req.user});
@@ -10,7 +13,7 @@ router.post('/user_info',verify,(req,res)=>{
 });
 
 
-
+//Agregar Nuevos eventos
 router.post('/new_event',verify,(req,res)=>{
 
     console.log(req.body)
@@ -67,5 +70,47 @@ router.post('/new_event',verify,(req,res)=>{
     })
 });
 
+router.post('/getevents',verify,(req,res)=>{
+    let query = 'select  eventos.event_id, eventos.event_owner_email , eventos.event_date, eventos.eventos_name , eventos.event_contenido , eventos_comites.comite_id , comites.comite_name from eventos JOIN eventos_comites on eventos.event_id=eventos_comites.event_id JOIN  comites on comites.comite_id=eventos_comites.comite_id ;'
+
+    mysqlConnection.query(query,[],(err,rows,fields)=>{
+        if(!err){
+            res.json(rows)
+        }else{
+            console.log(err)
+            res.json({status:false})
+        }
+    })
+});
+
+router.post('/send_mail',verify,(req,res)=>{
+    console.log("datos email: ", req.body );
+
+    const transporter = nodemailer.createTransport(  {
+        service:"hotmail",
+        auth: {
+            user:"pdijacdorado@hotmail.com",
+            pass:"Jprueda123"
+        },
+    });
+
+    const options = {
+        from:"pdijacdorado@hotmail.com",
+        to:"jpruedaort@hotmail.com",
+        subject:"Send email with node",
+        text:"hola"
+    }
+
+    transporter.sendMail(options,  function(err,info){
+        if(!err){
+            res.json({status:true})
+        }else{
+            res.json({status:false})
+            console.log(err)
+        }
+    })
+
+ 
+})
 
 module.exports = router;
