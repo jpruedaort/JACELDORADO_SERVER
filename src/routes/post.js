@@ -98,7 +98,7 @@ router.post('/send_mail',verify,(req,res)=>{
     const options = {
         from:process.env.EM_USER,
         to:'###',
-        subject:"Send email with node",
+        subject:"Sent email with node",
         text:"hola"
     }
 
